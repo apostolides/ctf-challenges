@@ -1,0 +1,1 @@
+// Example Static JavaScript file

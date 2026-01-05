@@ -1,0 +1,5 @@
+pydantic
+python-dotenv
+selenium
+fastapi-guard==3.0.1
+fastapi[all]

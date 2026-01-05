@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Note</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="container">
+    <h1>NEW NOTE</h1>
+
+    <form id="noteForm">
+        <label>Content</label>
+        <textarea id="content" required style="width:100%;height:120px;background:#000;border:1px solid #00ff66;color:#00ff66;font-family:inherit;"></textarea>
+        <br></br>
+        <button type="submit">SAVE NOTE</button>
+        <p id="message"></p>
+    </form>
+
+    <a href="/notes"><button>BACK</button></a>
+    <button onclick="logout()">LOGOUT</button>
+</div>
+
+<script src="./app.js"></script>
+<script>
+    document.getElementById("noteForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const content = document.querySelector("#content").value.trim();
+        const msg = document.querySelector("#message");
+
+        if (!content) {
+            msg.innerText = "Content cannot be empty.";
+            msg.style.color = "red";
+            return;
+        }
+
+        const res = await fetch("/profile/notes", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ content })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            msg.style.color = "#00ff66";
+            msg.innerText = data.message;
+            document.querySelector("#content").value = "";
+        } else {
+            msg.style.color = "red";
+            msg.innerText = data.message;
+        }
+    });
+</script>
+</body>
+</html>

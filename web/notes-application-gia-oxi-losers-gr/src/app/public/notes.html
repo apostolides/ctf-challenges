@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Notes</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="container">
+    <h1>MY NOTES</h1>
+
+    <pre id="notesBox">Loading...</pre>
+
+    <a href="/new-note"><button>NEW NOTE</button></a>
+    <button onclick="logout()">LOGOUT</button>
+</div>
+
+<script src="./app.js"></script>
+<script>
+    async function loadNotes() {
+        const notesBox = document.querySelector("#notesBox");
+
+        const res = await fetch("/profile/notes", {
+            credentials: "include"
+        });
+
+        if (!res.ok) {
+            notesBox.innerText = "Not logged in.";
+            setTimeout(() => window.location = "/login", 800);
+            return;
+        }
+
+        const data = await res.json();
+
+        if (!data.notes || data.notes.length === 0) {
+            notesBox.innerText = "No notes yet.";
+            return;
+        }
+
+        let output = "";
+        data.notes.forEach(n => {
+            output += `#${n.noteid}: ${n.content}\n\n`;
+        });
+
+        notesBox.innerText = output;
+    }
+
+    loadNotes();
+</script>
+</body>
+</html>
