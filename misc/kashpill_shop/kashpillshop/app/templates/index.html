@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}KashPillShop - Premium Products{% endblock %}
+
+{% block content %}
+
+<div style="margin-bottom:32px; padding: 28px; background: var(--bg1); border: 1px solid var(--border);">
+  <div style="font-size:0.7em; color:var(--muted); text-transform:uppercase; letter-spacing:3px; margin-bottom:10px;">Welcome to KashPillShop</div>
+  <div style="font-size:1.1em; color:#fff; margin-bottom:10px;">Premium substances. Discreet shipping. Zero traces.</div>
+  <div style="font-size:0.8em; color:var(--muted); line-height:1.8; max-width:600px;">
+    All products are lab-tested and shipped from secure facilities. Orders placed before 18:00 ship same day.
+    Payment in BTC only. Every order includes a digitally generated PDF receipt for your records.
+  </div>
+</div>
+
+<div class="section-title">Available Products ({{ products|length }})</div>
+
+<div class="grid">
+  {% for p in products %}
+  <div class="card">
+    {% if p.badge %}
+    <span class="card-badge bc-{{ p.bc }}">{{ p.badge }}</span>
+    {% endif %}
+    <div class="card-name">{{ p.name }}</div>
+    <div class="card-price">{{ p.price }}</div>
+    <div class="card-desc">{{ p.desc }}</div>
+    <a href="/product/{{ p.id }}" class="btn btn-outline">VIEW PRODUCT</a>
+  </div>
+  {% endfor %}
+</div>
+
+<div style="margin-top:40px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+  <div style="background:var(--bg1); border:1px solid var(--border); padding:16px;">
+    <div style="color:var(--accent); font-size:0.7em; text-transform:uppercase; letter-spacing:2px; margin-bottom:6px;">Shipping</div>
+    <div style="font-size:0.8em; color:var(--muted); line-height:1.7;">
+      All parcels are vacuum sealed and wrapped in odor-proof material. No external branding.
+    </div>
+  </div>
+  <div style="background:var(--bg1); border:1px solid var(--border); padding:16px;">
+    <div style="color:var(--accent); font-size:0.7em; text-transform:uppercase; letter-spacing:2px; margin-bottom:6px;">Payment</div>
+    <div style="font-size:0.8em; color:var(--muted); line-height:1.7;">
+      Bitcoin only. Monero accepted on request. Funds must clear before dispatch. No chargebacks.
+    </div>
+  </div>
+  <div style="background:var(--bg1); border:1px solid var(--border); padding:16px;">
+    <div style="color:var(--accent); font-size:0.7em; text-transform:uppercase; letter-spacing:2px; margin-bottom:6px;">Privacy</div>
+    <div style="font-size:0.8em; color:var(--muted); line-height:1.7;">
+      No logs. No accounts required. PDF receipts generated locally and never stored on our servers.
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} - KashPillShop{% endblock %}
+
+{% block content %}
+
+<div class="breadcrumb">
+  <a href="/">Home</a>
+  <span>›</span>
+  {{ product.name }}
+</div>
+
+<div class="product-detail">
+
+  <div class="product-info">
+    {% if product.badge %}
+    <span class="card-badge bc-{{ product.bc }}">{{ product.badge }}</span>
+    {% endif %}
+    <div class="product-name">{{ product.name }}</div>
+    <div class="product-price">{{ product.price }}</div>
+    <div class="product-desc">{{ product.desc }}</div>
+
+    <div class="product-meta">
+      <div class="mrow"><span>Status</span><span style="color:var(--accent)">● IN STOCK</span></div>
+      <div class="mrow"><span>Shipping</span><span>5–10 business days</span></div>
+      <div class="mrow"><span>Origin</span><span>EU laboratory</span></div>
+      <div class="mrow"><span>Packaging</span><span>Vacuum sealed, odor-proof</span></div>
+      <div class="mrow"><span>Payment</span><span>BTC / XMR</span></div>
+      <div class="mrow"><span>Receipt</span><span>PDF generated on purchase</span></div>
+    </div>
+
+    <a href="/checkout/{{ product.id }}" class="btn btn-primary" style="width:200px">BUY NOW</a>
+  </div>
+
+  <div>
+    <div class="reviews">
+      <div class="section-title">Buyer Reviews</div>
+
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <div class="review-meta"><span>anon_b2c4f</span> &nbsp;·&nbsp; 3 days ago &nbsp;·&nbsp; Verified purchase</div>
+        <div>Solid product, fast delivery. Packaged exactly as described. Will order again.</div>
+      </div>
+
+      <div class="review">
+        <div class="stars">★★★★☆</div>
+        <div class="review-meta"><span>void_walker</span> &nbsp;·&nbsp; 1 week ago &nbsp;·&nbsp; Verified purchase</div>
+        <div>Good quality. Took 8 days to arrive but the PDF receipt was instant. Legit vendor.</div>
+      </div>
+
+      <div class="review">
+        <div class="stars">★★★★★</div>
+        <div class="review-meta"><span>cipher_x99</span> &nbsp;·&nbsp; 2 weeks ago &nbsp;·&nbsp; Verified purchase</div>
+        <div>Best on the market right now. Tested it myself - purity is real. 10/10.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

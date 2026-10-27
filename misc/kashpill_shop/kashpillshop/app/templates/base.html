@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>{% block title %}KashPillShop{% endblock %}</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #080808;
+  --bg1:     #101010;
+  --bg2:     #161616;
+  --border:  #1f1f1f;
+  --text:    #cccccc;
+  --muted:   #555555;
+  --accent:  #39ff14;
+  --accent2: #00b4d8;
+  --danger:  #ff3333;
+  --hot:     #ff5722;
+  --sale:    #f5a623;
+  --limited: #9b59b6;
+  --new:     #2980b9;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Courier New', Courier, monospace;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ── HEADER ── */
+header {
+  background: var(--bg1);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.2em;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #fff;
+}
+.logo span { color: var(--accent); }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.72em;
+  color: var(--muted);
+}
+
+.online {
+  color: var(--accent);
+  font-weight: bold;
+}
+.online::before {
+  content: '● ';
+}
+
+/* ── CONTAINER ── */
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+/* ── MAIN ── */
+main {
+  flex: 1;
+  padding: 32px 0;
+}
+
+/* ── SECTION TITLE ── */
+.section-title {
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── PRODUCT GRID ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s;
+}
+.card:hover { border-color: #2a2a2a; }
+
+.card-badge {
+  display: inline-block;
+  font-size: 0.62em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 2px 7px;
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+.bc-hot     { background: var(--hot);     color: #fff; }
+.bc-sale    { background: var(--sale);    color: #000; }
+.bc-limited { background: var(--limited); color: #fff; }
+.bc-new     { background: var(--new);     color: #fff; }
+
+.card-name {
+  font-size: 0.95em;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.card-price {
+  color: var(--accent);
+  font-size: 0.85em;
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  color: var(--muted);
+  font-size: 0.78em;
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 18px;
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-block;
+  padding: 9px 20px;
+  font-family: inherit;
+  font-size: 0.8em;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s;
+  text-align: center;
+}
+.btn:hover { opacity: 0.85; }
+
+.btn-primary { background: var(--accent); color: #000; }
+.btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+.btn-outline:hover { background: var(--accent); color: #000; }
+.btn-block { display: block; width: 100%; }
+
+/* ── PRODUCT DETAIL ── */
+.product-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 20px;
+}
+.product-info { }
+.product-name {
+  font-size: 1.5em;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.product-price {
+  font-size: 1.2em;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.product-desc {
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 24px;
+  font-size: 0.9em;
+}
+.product-meta {
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 24px;
+  font-size: 0.8em;
+}
+.product-meta .mrow {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+}
+.product-meta .mrow:last-child { border-bottom: none; }
+.product-meta .mrow span:last-child { color: var(--text); }
+
+.product-side {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  padding: 24px;
+  align-self: start;
+}
+
+/* ── FORM ── */
+.form-group { margin-bottom: 18px; }
+.form-group label {
+  display: block;
+  font-size: 0.72em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.88em;
+  outline: none;
+  resize: vertical;
+}
+.form-group input:focus,
+.form-group textarea:focus { border-color: #333; }
+
+.form-hint {
+  font-size: 0.7em;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.checkout-wrap {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  margin-top: 20px;
+}
+
+.order-summary {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  padding: 20px;
+  align-self: start;
+}
+.order-summary h3 {
+  font-size: 0.72em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85em;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-row span:last-child { color: var(--text); }
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95em;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #333;
+  font-weight: bold;
+}
+.summary-total span:last-child { color: var(--accent); }
+
+.pdf-note {
+  background: #0a1a0a;
+  border: 1px solid #1a3a1a;
+  color: #5a8a5a;
+  font-size: 0.75em;
+  padding: 10px 14px;
+  margin-top: 16px;
+  line-height: 1.6;
+}
+.pdf-note strong { color: var(--accent); }
+
+/* ── REVIEWS ── */
+.reviews { margin-top: 32px; }
+.review {
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 10px;
+  font-size: 0.82em;
+}
+.review-meta {
+  color: var(--muted);
+  font-size: 0.8em;
+  margin-bottom: 6px;
+}
+.review-meta span { color: var(--accent); }
+.stars { color: var(--accent); letter-spacing: 2px; margin-bottom: 6px; }
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  font-size: 0.72em;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.breadcrumb a { color: var(--muted); }
+.breadcrumb a:hover { color: var(--text); }
+.breadcrumb span { margin: 0 6px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg1);
+  border-top: 1px solid var(--border);
+  padding: 14px 24px;
+  font-size: 0.7em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+footer .pgp { color: #333; font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">KASH<span>PILL</span>SHOP</a>
+  <div class="header-right">
+    <span class="online">ONLINE</span>
+    <span>Tor v3 // E2E Encrypted</span>
+    <span>BTC only</span>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</main>
+
+<footer>
+  <span>© KashPillShop 2025 &nbsp;|&nbsp; All sales are final &nbsp;|&nbsp; Delivery 5–10 business days</span>
+  <span class="pgp">PGP: 4A8F 29C1 BB3D 9E21 7734 &nbsp;|&nbsp; Escrow available on request</span>
+</footer>
+
+</body>
+</html>

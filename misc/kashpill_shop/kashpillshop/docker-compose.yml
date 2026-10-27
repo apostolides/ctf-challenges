@@ -1,0 +1,9 @@
+services:
+  kashpillshop:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - hs_keys:/var/lib/tor/hidden_service
+
+volumes:
+  hs_keys:
