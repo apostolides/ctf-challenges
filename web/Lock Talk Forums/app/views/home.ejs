@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lock Talk Forums - Lock Sport Community</title>
+  <link rel="icon" href="/img/favicon.svg">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <%- include('_nav') %>
+  <div class="layout">
+    <main class="feed">
+      <div class="feed-header">
+        <h2>Recent Discussions</h2>
+        <% if (user) { %>
+          <a href="/submit" class="btn-primary btn-sm">+ New Post</a>
+        <% } %>
+      </div>
+
+      <% threads.forEach(t => { %>
+        <div class="thread-card">
+          <div class="thread-meta">
+            <a href="/u/<%= t.author_username %>" class="thread-author">u/<%= t.author_username %></a>
+            <span class="dot">·</span>
+            <span class="thread-age"><%= t.age %></span>
+          </div>
+          <h3 class="thread-title">
+            <a href="/t/<%= t.id %>"><%= t.title %></a>
+          </h3>
+          <div class="thread-footer">
+            <a href="/t/<%= t.id %>" class="comment-count">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <%= t.comment_count %> comment<%= t.comment_count !== 1 ? 's' : '' %>
+            </a>
+          </div>
+        </div>
+      <% }) %>
+    </main>
+
+    <aside class="sidebar">
+      <div class="sidebar-card" style="padding:0;overflow:hidden">
+        <img src="/img/lock-banner.svg" alt="Lock Talk Forums" style="width:100%;display:block">
+        <div style="padding:.85rem 1rem">
+          <p style="font-size:.8rem;color:var(--text-muted);line-height:1.55;margin-bottom:.5rem">
+            Community for lock sport enthusiasts, security researchers, and hardware hackers.
+          </p>
+          <% if (user) { %>
+            <a href="/submit" class="btn-primary btn-block" style="margin-top:.25rem">+ Create Post</a>
+          <% } else { %>
+            <a href="/register" class="btn-primary btn-block" style="margin-top:.25rem">Join the Community</a>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Essential Tools</h4>
+        <img src="/img/picks.svg" alt="Hook pick and tension wrench" style="width:100%;margin:.5rem 0 .25rem">
+        <p style="font-size:.78rem;color:var(--text-muted)">Hook picks · Tension wrenches · Rakes · Diamond picks</p>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Popular Topics</h4>
+        <ul class="sidebar-topics">
+          <li>Picking Technique</li>
+          <li>Lock Reviews</li>
+          <li>Tool Talk</li>
+          <li>High-Security Cylinders</li>
+          <li>Physical Security Research</li>
+          <li>Bypass Methods</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+  <footer><p>Lock Talk Forums &copy; 2026 - Lock Sport &amp; Security Research Community</p></footer>
+</body>
+</html>

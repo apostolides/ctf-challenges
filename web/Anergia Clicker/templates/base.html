@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}HaxorClicker{% endblock %}</title>
+  <link rel="icon" href="/static/favicon.ico">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="/game">⬡ <span style="color:var(--accent)">HAXOR</span>CLICKER</a>
+  <a href="/game"       {% if active == 'game'       %}class="active"{% endif %}>Game</a>
+  <a href="/scoreboard" {% if active == 'scoreboard' %}class="active"{% endif %}>Scoreboard</a>
+  <a href="/users"      {% if active == 'users'      %}class="active"{% endif %}>Players</a>
+  <a href="/settings"   {% if active == 'settings'   %}class="active"{% endif %}>Settings</a>
+  <a href="/logout" class="nav-logout">Logout</a>
+  {% if user %}
+  <span class="nav-user">{{ user.username }}</span>
+  {% endif %}
+</nav>
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer style="text-align:center;padding:1.5rem;font-size:0.78rem;color:var(--muted);border-top:1px solid var(--border);margin-top:2rem;">
+  &copy; 2026 OsorinCorp. All rights reserved.
+</footer>
+
+</body>
+</html>

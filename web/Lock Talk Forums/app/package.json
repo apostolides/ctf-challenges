@@ -1,0 +1,16 @@
+{
+  "name": "locktalk",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "1.18.1",
+    "better-sqlite3": "12.11.1",
+    "ejs": "6.0.1",
+    "express": "5.2.1",
+    "express-session": "1.19.0",
+    "puppeteer-core": "24.43.1"
+  }
+}

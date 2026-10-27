@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Lock Talk Forums</title>
+  <link rel="icon" href="/img/favicon.svg">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <%- include('_nav') %>
+  <div class="layout layout-narrow">
+    <main>
+      <h2 style="margin-bottom:1.5rem">Account Settings</h2>
+
+      <div class="form-card" style="margin-bottom:1.5rem">
+        <h3 style="margin-bottom:1rem">Identity</h3>
+        <dl class="info-list">
+          <dt>Username</dt><dd><%= user.username %></dd>
+          <dt>Email</dt><dd><%= user.email || '-' %></dd>
+          <dt>Display name</dt><dd><%= user.name || user.username %></dd>
+        </dl>
+        <p class="text-muted" style="margin-top:.75rem;font-size:.875rem">
+          Direct account management is temporarily disabled.
+        </p>
+        <% if (error) { %>
+          <div class="alert alert-error" style="margin-top:1rem"><%= error %></div>
+        <% } %>
+        <form method="POST" action="/settings/profile" style="margin-top:1rem">
+          <button type="submit" class="btn-outline" disabled>Edit Profile</button>
+        </form>
+      </div>
+
+      <div class="form-card">
+        <h3 style="margin-bottom:.25rem">Profile Picture</h3>
+        <p class="text-muted" style="font-size:.875rem;margin-bottom:1rem">
+          Import a profile picture from a URL. The server will fetch the image on your behalf and display a preview.
+        </p>
+
+        <div style="display:flex;gap:.5rem;align-items:flex-start;margin-bottom:.75rem">
+          <input
+            type="url"
+            id="avatar-url"
+            class="s-input"
+            placeholder="https://example.com/avatar.png"
+            style="flex:1"
+          >
+          <button id="avatar-fetch-btn" class="btn-primary" style="white-space:nowrap">Fetch &amp; Preview</button>
+        </div>
+
+        <details style="margin-bottom:.75rem">
+          <summary style="cursor:pointer;font-size:.8rem;color:var(--text-muted);user-select:none">Advanced options (authenticated sources)</summary>
+          <div style="margin-top:.75rem;display:flex;flex-direction:column;gap:.75rem">
+            <div>
+              <label style="font-size:.8rem;font-weight:600;display:block;margin-bottom:.3rem">Method</label>
+              <select id="avatar-method" class="s-input settings-select">
+                <option>GET</option>
+                <option>POST</option>
+                <option>PUT</option>
+                <option>PATCH</option>
+                <option>DELETE</option>
+                <option>HEAD</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:.8rem;font-weight:600;display:block;margin-bottom:.3rem">
+                Custom Headers <span style="font-weight:400;color:var(--text-muted)">(JSON)</span>
+              </label>
+              <textarea
+                id="avatar-headers"
+                class="s-input"
+                rows="3"
+                placeholder='{"Authorization": "Bearer token", "X-Api-Key": "..."}'
+              ></textarea>
+            </div>
+            <div>
+              <label style="font-size:.8rem;font-weight:600;display:block;margin-bottom:.3rem">Request Body</label>
+              <textarea
+                id="avatar-body"
+                class="s-input"
+                rows="3"
+                placeholder="Optional request body"
+              ></textarea>
+            </div>
+          </div>
+        </details>
+
+        <div id="avatar-msg" style="display:none;margin-top:.5rem;font-size:.875rem"></div>
+      </div>
+    </main>
+  </div>
+  <footer><p>Lock Talk Forums &copy; 2026</p></footer>
+
+  <script>
+    document.getElementById('avatar-fetch-btn').addEventListener('click', async () => {
+      const url     = document.getElementById('avatar-url').value.trim();
+      const method  = document.getElementById('avatar-method').value;
+      const headers = document.getElementById('avatar-headers').value.trim();
+      const body    = document.getElementById('avatar-body').value.trim();
+      const msgEl   = document.getElementById('avatar-msg');
+      const btn     = document.getElementById('avatar-fetch-btn');
+
+      msgEl.style.display = 'none';
+      if (!url) {
+        msgEl.textContent = 'Please enter a URL.';
+        msgEl.style.color = 'var(--danger)';
+        msgEl.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Fetching…';
+
+      try {
+        const resp = await fetch('/api/settings/avatar/fetch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, method, headers: headers || undefined, body: body || undefined }),
+        });
+        const data = await resp.json();
+
+        if (data.error) {
+          msgEl.textContent = data.error;
+          msgEl.style.color = 'var(--danger)';
+        } else if (data.avatarSaved) {
+          msgEl.textContent = 'Avatar updated. Visit your profile to see it.';
+          msgEl.style.color = 'var(--success)';
+        } else {
+          msgEl.textContent = 'Request sent.';
+          msgEl.style.color = 'var(--text-muted)';
+        }
+        msgEl.style.display = 'block';
+      } catch (e) {
+        msgEl.textContent = 'Request failed.';
+        msgEl.style.color = 'var(--danger)';
+        msgEl.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Fetch & Preview';
+      }
+    });
+  </script>
+</body>
+</html>

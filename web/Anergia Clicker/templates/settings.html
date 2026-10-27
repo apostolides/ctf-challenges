@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Settings - HaxorClicker{% endblock %}
+{% block content %}
+{% set active = 'settings' %}
+
+<h1>Account <span>Settings</span></h1>
+
+{% if success %}
+<div class="alert alert-success">Changes saved.</div>
+{% endif %}
+
+{% if error %}
+<div class="alert alert-error">{{ error }}</div>
+{% endif %}
+
+<div class="card">
+  <form method="post" action="/settings">
+
+    <div class="form-group">
+      <label>Login Username (read-only)</label>
+      <input type="text" value="{{ user.username }}" disabled
+             style="opacity:0.45;cursor:not-allowed;">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="form-group">
+      <label for="display_name">Display Name</label>
+      <input type="text" id="display_name" name="display_name"
+             value="{{ user.display_name }}" maxlength="32">
+    </div>
+
+    <div class="form-group">
+      <label for="password">New Password <span style="color:var(--muted);font-size:0.8em;">(leave blank to keep current)</span></label>
+      <input type="password" id="password" name="password"
+             maxlength="128" autocomplete="new-password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+</div>
+
+<h1 style="margin-top:2rem;">Profile <span>Avatar</span></h1>
+
+<div class="card">
+  <div id="avatar-preview" style="margin-bottom:1.5rem;{% if not user.avatar %}display:none;{% endif %}">
+    <label>Current Avatar</label>
+    <div style="margin-top:0.5rem;">
+      <img id="current-avatar"
+           src="{% if user.avatar %}data:image/png;base64,{{ user.avatar }}{% endif %}"
+           width="96" height="96"
+           style="border-radius:8px;border:1px solid var(--border);display:block;">
+    </div>
+  </div>
+  {% if user.avatar %}<div class="divider"></div>{% endif %}
+
+  <div class="form-group">
+    <label for="avatar-url">Image URL</label>
+    <input type="text" id="avatar-url" placeholder="https://example.com/avatar.png">
+  </div>
+  <button class="btn btn-primary" onclick="uploadAvatar()">Set Avatar</button>
+  <span id="avatar-msg" style="margin-left:1rem;font-size:0.85rem;color:var(--muted);"></span>
+</div>
+
+<script>
+  async function uploadAvatar() {
+    const url = document.getElementById('avatar-url').value.trim();
+    const msg = document.getElementById('avatar-msg');
+    if (!url) return;
+
+    msg.textContent = 'Fetching…';
+    const res = await fetch('/profile/picture', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      msg.style.color = 'var(--accent)';
+      msg.textContent = 'Avatar updated.';
+      document.getElementById('current-avatar').src = `data:image/png;base64,${data.avatar}`;
+      document.getElementById('avatar-preview').style.display = '';
+    } else {
+      msg.style.color = 'var(--danger)';
+      msg.textContent = data.error || 'Failed.';
+    }
+  }
+</script>
+{% endblock %}

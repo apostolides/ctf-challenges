@@ -1,0 +1,52 @@
+# This file represents the base specification of your challenge. It is used by
+# other tools to install and deploy your challenge.
+
+# Required sections
+name: "Lock Talk Forums"
+author: "osorin"
+homepage: "https://github.com/apostolides"
+category: Web
+description: "Lock picking is the new hot trend of 2026, connect with more pickers via lock talk forums now!1!1\n\nAuthor: [osorin](https://www.linkedin.com/in/thanos-apostolidis-3255591b1/)"
+value: 100
+type: docker-dynamic
+
+extra:
+    initial: 500
+    decay: 10
+    minimum: 100
+    # For the challenge tag convert the challenge's name into a-z, 0-9 and - chars
+    docker_image: ctf-challenges/web:lock-talk-forums
+
+# Info for a possible plugin to deploy challenge
+deploy:
+    docker_challenges: dist/docker-challenge.tar
+
+# Flags specify answers that your challenge use.
+flags:
+    # TODO: replace with the real flag
+    - GRT26{k4l4_4u70_74_3x31_0l4_dn5_r3b1nd1n6_3_k4l0_457310}
+
+# Topics are used to help tell what techniques/information a challenge involves
+# They are generally only visible to admins
+
+# Tags are used to provide additional public tagging to a challenge
+tags:
+    - hard
+    - web
+
+# Provide paths to files from the same directory that this file is in
+files:
+    # - dist/web-lock-talk-forums.zip
+
+# Hints are used to give players a way to buy or have suggestions.
+hints:
+    # - {
+    #     content: "No hints.",
+    #     cost: 0
+    # }
+
+# The state of the challenge.
+state: hidden
+
+# Specifies what version of the challenge specification was used.
+version: "0.1"

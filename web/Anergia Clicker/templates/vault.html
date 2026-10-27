@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Admin Vault - HaxorClicker{% endblock %}
+{% block content %}
+{% set active = '' %}
+
+<h1>Admin <span>Vault</span></h1>
+
+<div class="card" style="text-align:center;padding:3rem 2rem;">
+  <p style="color:var(--muted);font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">
+    Classified - administrator access only
+  </p>
+  <code id="flag" style="font-size:1.2rem;letter-spacing:0.05em;">{{ flag }}</code>
+</div>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+services:
+  nexusboard:
+    build: .
+    ports:
+      - "6767:6767"
+    environment:
+      FLAG: "CHANGEME_SET_VIA_CTFD"
+    restart: unless-stopped

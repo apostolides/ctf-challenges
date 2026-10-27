@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>u/<%= profile.username %> - Lock Talk Forums</title>
+  <link rel="icon" href="/img/favicon.svg">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <%- include('_nav') %>
+  <div class="layout">
+    <main class="feed">
+
+      <div class="profile-header">
+        <div class="profile-avatar-lg">
+          <% if (/^data:image\/(jpeg|png|gif|webp);base64,[A-Za-z0-9+/]+=*$/.test(profile.avatar || '')) { %>
+            <img src="<%= profile.avatar %>" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block">
+          <% } else { %>
+            <%= profile.username.slice(0,2).toUpperCase() %>
+          <% } %>
+        </div>
+        <div class="profile-header-info">
+          <h2>u/<%= profile.username %></h2>
+          <% if (profile.display_name && profile.display_name !== profile.username) { %>
+            <p class="text-muted"><%= profile.display_name %></p>
+          <% } %>
+        </div>
+        <% if (isSelf) { %>
+          <a href="/settings" class="btn-outline btn-sm" style="margin-left:auto">Edit profile</a>
+        <% } %>
+      </div>
+
+      <% if (profile.about) { %>
+        <div class="profile-about-card">
+          <h4>About</h4>
+          <div class="about-body"><%- profile.about %></div>
+        </div>
+      <% } %>
+
+      <h3 style="margin:1.5rem 0 .75rem;font-size:.95rem">Posts by u/<%= profile.username %></h3>
+
+      <% if (threads.length === 0) { %>
+        <p class="text-muted">No posts yet.</p>
+      <% } %>
+
+      <% threads.forEach(t => { %>
+        <div class="thread-card">
+          <div class="thread-meta">
+            <span class="thread-age"><%= t.age %></span>
+          </div>
+          <h3 class="thread-title">
+            <a href="/t/<%= t.id %>"><%= t.title %></a>
+          </h3>
+          <div class="thread-footer">
+            <span class="comment-count">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <%= t.comment_count %> comment<%= t.comment_count !== 1 ? 's' : '' %>
+            </span>
+          </div>
+        </div>
+      <% }) %>
+
+    </main>
+
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h4>u/<%= profile.username %></h4>
+        <p><%= threads.length %> post<%= threads.length !== 1 ? 's' : '' %></p>
+        <% if (isSelf) { %>
+          <a href="/settings" class="btn-outline btn-block">Settings</a>
+        <% } %>
+      </div>
+    </aside>
+  </div>
+  <footer><p>Lock Talk Forums &copy; 2026</p></footer>
+</body>
+</html>

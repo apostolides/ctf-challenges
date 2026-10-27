@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= thread.title %> - Lock Talk Forums</title>
+  <link rel="icon" href="/img/favicon.svg">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <%- include('_nav') %>
+  <div class="layout">
+    <main class="feed">
+
+      <div class="post-card">
+        <div class="post-meta">
+          <a href="/u/<%= thread.author_username %>" class="post-author">u/<%= thread.author_username %></a>
+          <span class="dot">·</span>
+          <span class="post-age"><%= thread.age %></span>
+          <% if (user && user.sub === thread.author_sub) { %>
+            <span class="dot">·</span>
+            <form method="POST" action="/t/<%= thread.id %>/delete" style="display:inline" onsubmit="return confirm('Delete this post?')">
+              <button type="submit" class="link-btn danger-link">delete</button>
+            </form>
+          <% } %>
+        </div>
+        <h1 class="post-title"><%= thread.title %></h1>
+        <div class="post-body"><%= thread.body %></div>
+        <div class="post-footer">
+          <span class="comment-count">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <%= thread.comment_count %> comment<%= thread.comment_count !== 1 ? 's' : '' %>
+          </span>
+        </div>
+      </div>
+
+      <% if (user) { %>
+        <div class="comment-form-card">
+          <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+          <form method="POST" action="/t/<%= thread.id %>/comment">
+            <div class="form-group">
+              <label>Comment as <a href="/u/<%= user.username %>">u/<%= user.username %></a></label>
+              <textarea name="body" rows="4" placeholder="Share your thoughts…" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Post Comment</button>
+          </form>
+        </div>
+      <% } else { %>
+        <div class="login-prompt">
+          <a href="/login">Sign in</a> to leave a comment.
+        </div>
+      <% } %>
+
+      <% if (comments.length === 0) { %>
+        <p class="no-comments">No comments yet. Be the first.</p>
+      <% } %>
+
+      <% comments.forEach(c => { %>
+        <div class="comment-card">
+          <div class="comment-meta">
+            <a href="/u/<%= c.author_username %>" class="comment-author">u/<%= c.author_username %></a>
+            <span class="dot">·</span>
+            <span class="comment-age"><%= c.age %></span>
+            <% if (user && user.sub === c.author_sub) { %>
+              <span class="dot">·</span>
+              <form method="POST" action="/c/<%= c.id %>/delete" style="display:inline" onsubmit="return confirm('Delete comment?')">
+                <button type="submit" class="link-btn danger-link">delete</button>
+              </form>
+            <% } %>
+          </div>
+          <div class="comment-body"><%= c.body %></div>
+        </div>
+      <% }) %>
+
+    </main>
+
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h4>Post by u/<%= thread.author_username %></h4>
+        <p>Posted <%= thread.age %></p>
+        <a href="/" class="btn-outline btn-block">Back to feed</a>
+      </div>
+
+      <% if (user) { %>
+        <div class="sidebar-card">
+          <h4>Report</h4>
+          <p>If this post violates community guidelines, flag it for admin review.</p>
+          <button class="btn-outline btn-block" id="reportBtn" style="margin-top:.5rem;color:var(--danger);border-color:var(--danger)">
+            Report Post
+          </button>
+          <p id="report-msg" style="display:none;margin-top:.5rem;font-size:.8rem"></p>
+        </div>
+      <% } %>
+    </aside>
+  </div>
+  <footer><p>Lock Talk Forums &copy; 2026</p></footer>
+
+  <% if (user) { %>
+  <script>
+    document.getElementById('reportBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('reportBtn');
+      btn.disabled = true;
+      btn.textContent = 'Reporting…';
+      try {
+        const r = await fetch('/report/thread/<%= thread.id %>', { method: 'POST', credentials: 'include' });
+        const data = await r.json();
+        const msg = document.getElementById('report-msg');
+        msg.textContent = data.message || data.error || 'Unknown response.';
+        msg.style.color = r.ok ? 'var(--success)' : 'var(--danger)';
+        msg.style.display = 'block';
+        btn.style.display = 'none';
+      } catch (e) {
+        btn.disabled = false;
+        btn.textContent = 'Report Post';
+      }
+    });
+  </script>
+  <% } %>
+</body>
+</html>

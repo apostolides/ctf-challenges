@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Game - HaxorClicker{% endblock %}
+{% block content %}
+{% set active = 'game' %}
+
+<div class="card">
+  <div class="game-arena">
+
+    <div class="score-box">
+      <span class="score-label">TOTAL SCORE</span>
+      <span class="score-display" id="score-display">{{ user.score }}</span>
+    </div>
+
+    <button class="hack-btn" id="hack-btn" onclick="playRound()">
+      HACK<br>NODE
+    </button>
+
+    <p class="game-hint" id="status-msg">
+      Each successful node hack earns <strong>+1 point</strong>.<br>
+      Climb the <a href="/scoreboard" style="color:var(--accent)">scoreboard</a> to prove your worth.
+    </p>
+
+  </div>
+</div>
+
+<!-- /game/score endpoint under maintenance, re-enable after server migration -->
+
+<script>
+  async function playRound() {
+    const btn = document.getElementById('hack-btn');
+    const msg = document.getElementById('status-msg');
+
+    btn.disabled = true;
+    btn.style.opacity = '0.35';
+    btn.style.cursor = 'not-allowed';
+    msg.innerHTML = 'Game servers are temporarily offline.<br>Score synchronization has been suspended.';
+
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      msg.innerHTML = 'Each successful node hack earns <strong>+1 point</strong>.<br>Climb the <a href="/scoreboard" style="color:var(--accent)">scoreboard</a> to prove your worth.';
+    }, 3000);
+  }
+</script>
+{% endblock %}

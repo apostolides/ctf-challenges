@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Lock Talk Forums</title>
+  <link rel="icon" href="/img/favicon.svg">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <%- include('_nav') %>
+  <div class="layout layout-narrow">
+    <main>
+      <h2 style="margin-bottom:.25rem">Admin Panel</h2>
+      <p class="text-muted" style="margin-bottom:2rem">Internal administration interface.</p>
+
+      <div class="form-card" style="margin-bottom:1.5rem">
+        <h3 style="margin-bottom:.75rem">Platform Overview</h3>
+        <dl class="info-list">
+          <dt>Logged in as</dt><dd><%= user.username %></dd>
+          <dt>Realm</dt><dd>locktalk</dd>
+          <dt>Build</dt><dd>v1.0.0</dd>
+        </dl>
+      </div>
+
+      <div class="form-card">
+        <h3 style="margin-bottom:.5rem">Platform Security Token</h3>
+        <p class="text-muted" style="font-size:.875rem">
+          The platform verification token for this instance is available via the admin API.
+          This token is instance-specific and rotates on each deployment.
+        </p>
+        <p class="text-muted" style="font-size:.8rem;margin-top:.5rem">
+          Endpoint: <code style="font-family:monospace">GET /api/admin/flag</code>
+        </p>
+      </div>
+    </main>
+  </div>
+  <footer><p>Lock Talk Forums &copy; 2026 - Restricted area</p></footer>
+</body>
+</html>

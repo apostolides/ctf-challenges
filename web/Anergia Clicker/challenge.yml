@@ -1,0 +1,52 @@
+# This file represents the base specification of your challenge. It is used by
+# other tools to install and deploy your challenge.
+
+# Required sections
+name: "Anergia Clicker"
+author: "osorin"
+homepage: "https://github.com/apostolides"
+category: Web
+description: "Work from home \"workers\" must do something to pass time. Click click click all day.\n\nAuthor: [osorin](https://www.linkedin.com/in/thanos-apostolidis-3255591b1/)"
+value: 100
+type: docker-dynamic
+
+extra:
+    initial: 500
+    decay: 20
+    minimum: 100
+    # For the challenge tag convert the challenge's name into a-z, 0-9 and - chars
+    docker_image: ctf-challenges/web:anergia-clicker
+
+# Info for a possible plugin to deploy challenge
+deploy:
+    docker_challenges: dist/docker-challenge.tar
+
+# Flags specify answers that your challenge use.
+flags:
+    # TODO: replace with the real flag
+    - GRT26{cr4zy_4p1573u70_0r4cl3_k13751}
+
+# Topics are used to help tell what techniques/information a challenge involves
+# They are generally only visible to admins
+
+# Tags are used to provide additional public tagging to a challenge
+tags:
+    - medium
+    - web
+
+# Provide paths to files from the same directory that this file is in
+files:
+    # - dist/web-anergia-clicker.zip
+
+# Hints are used to give players a way to buy or have suggestions.
+hints:
+    # - {
+    #     content: "No hints.",
+    #     cost: 0
+    # }
+
+# The state of the challenge.
+state: hidden
+
+# Specifies what version of the challenge specification was used.
+version: "0.1"

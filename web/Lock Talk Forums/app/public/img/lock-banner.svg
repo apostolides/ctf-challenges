@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 120" fill="none">
+  <defs>
+    <pattern id="grid" width="12" height="12" patternUnits="userSpaceOnUse">
+      <path d="M 12 0 L 0 0 0 12" fill="none" stroke="#c9a84c" stroke-width=".2" opacity=".25"/>
+    </pattern>
+  </defs>
+  <rect width="280" height="120" fill="url(#grid)" rx="8"/>
+
+  <rect x="105" y="52" width="70" height="54" rx="8" stroke="#c9a84c" stroke-width="2.5" fill="#1a2032"/>
+  <path d="M122 52 L122 36 Q140 20 158 36 L158 52" stroke="#c9a84c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <circle cx="140" cy="77" r="7" fill="#c9a84c" opacity=".9"/>
+  <rect x="137" y="77" width="6" height="14" rx="3" fill="#c9a84c" opacity=".9"/>
+
+  <g stroke="#dbb95e" stroke-linecap="round">
+    <line x1="10" y1="82" x2="96" y2="80" stroke-width="1.8"/>
+    <rect x="4" y="77" width="28" height="10" rx="5" stroke-width="1.6" fill="none"/>
+    <path d="M96 80 Q104 80 104 73" stroke-width="1.8"/>
+  </g>
+
+  <g stroke="#8a6820" stroke-linecap="round">
+    <line x1="10" y1="98" x2="103" y2="98" stroke-width="2"/>
+    <rect x="4" y="93" width="22" height="10" rx="5" stroke-width="1.6" fill="none"/>
+    <line x1="103" y1="98" x2="103" y2="107" stroke-width="2.5"/>
+  </g>
+
+  <text x="185" y="68" font-family="system-ui,sans-serif" font-size="9" font-weight="600" fill="#c9a84c">Lock Talk Forums</text>
+  <text x="195" y="83" font-family="system-ui,sans-serif" font-size="8" fill="#7a8599">Lock Sport &amp;</text>
+  <text x="195" y="94" font-family="system-ui,sans-serif" font-size="8" fill="#7a8599">Security Research</text>
+</svg>

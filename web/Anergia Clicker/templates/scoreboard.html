@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Scoreboard - HaxorClicker{% endblock %}
+{% block content %}
+{% set active = 'scoreboard' %}
+
+<div class="page-header">
+  <h1>Global <span>Scoreboard</span></h1>
+  <span class="badge badge-cyan">{{ entries|length }} players</span>
+</div>
+
+<div class="card" style="padding:0;overflow:hidden;">
+  <table>
+    <thead>
+      <tr>
+        <th class="rank">Rank</th>
+        <th>Display Name</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in entries %}
+      <tr {% if entry.id == current_user_id %}class="you"{% endif %}>
+        <td class="rank
+          {%- if loop.index == 1 %} rank-1
+          {%- elif loop.index == 2 %} rank-2
+          {%- elif loop.index == 3 %} rank-3
+          {%- endif %}">
+          {{ loop.index }}
+        </td>
+        <td>
+          {{ entry.display_name }}
+          {% if entry.id == current_user_id %}
+          <span class="you-label">YOU</span>
+          {% endif %}
+        </td>
+        <td class="score-val">{{ entry.score }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
